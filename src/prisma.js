@@ -5,6 +5,6 @@ const prisma = new Prisma({
   endpoint: 'http://localhost:4466/',
 });
 
-prisma.query.users(null, '{ id name}').then((data) => {
+prisma.query.users(null, '{ id name posts { id title} }').then((data) => {
   console.log(data);
 });
