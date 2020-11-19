@@ -32,14 +32,42 @@ const createPostForUser = async (authorId, data) => {
   return user;
 };
 
-createPostForUser('5faf79f9ac546f0008c94798', {
-  title: 'Greate books to read',
-  body: 'The war of art',
-  published: true,
+const updatePostForUser = async (postId, data) => {
+  const post = await prisma.mutation.updatePost(
+    {
+      where: {
+        id: postId,
+      },
+      data,
+    },
+    '{ author { id } }'
+  );
+  const user = await prisma.query.user(
+    {
+      where: {
+        id: post.author.id,
+      },
+    },
+    '{ id name email posts { id title published } }'
+  );
+  return user;
+};
+
+updatePostForUser('5fb5dc92a7b11b00070af8b1', {
+  published: false,
 }).then((user) => {
   console.log(JSON.stringify(user, undefined, 2));
 });
 
+// createPostForUser('5faf79f9ac546f0008c94798', {
+//   title: 'Greate books to read',
+//   body: 'The war of art',
+//   published: true,
+// }).then((user) => {
+//   console.log(JSON.stringify(user, undefined, 2));
+// });
+
+//------------------------------------------------------
 // prisma.mutation
 //   .createPost(
 //     {
