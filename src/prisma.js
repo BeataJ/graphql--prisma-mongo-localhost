@@ -5,6 +5,41 @@ const prisma = new Prisma({
   endpoint: 'http://localhost:4466/',
 });
 
+const createPostForUser = async (authorId, data) => {
+  const post = await prisma.mutation.createPost(
+    {
+      data: {
+        ...data,
+        author: {
+          connect: {
+            id: authorId,
+          },
+        },
+      },
+    },
+    '{ id }'
+  );
+
+  const user = await prisma.query.user(
+    {
+      where: {
+        id: authorId,
+      },
+    },
+    '{ id name email posts { id title  published} }'
+  );
+
+  return user;
+};
+
+createPostForUser('5faf79f9ac546f0008c94798', {
+  title: 'Greate books to read',
+  body: 'The war of art',
+  published: true,
+}).then((user) => {
+  console.log(JSON.stringify(user, undefined, 2));
+});
+
 // prisma.mutation
 //   .createPost(
 //     {
