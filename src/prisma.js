@@ -53,11 +53,11 @@ const updatePostForUser = async (postId, data) => {
   return user;
 };
 
-updatePostForUser('5fb5dc92a7b11b00070af8b1', {
-  published: false,
-}).then((user) => {
-  console.log(JSON.stringify(user, undefined, 2));
-});
+// updatePostForUser('5fb5dc92a7b11b00070af8b1', {
+//   published: false,
+// }).then((user) => {
+//   console.log(JSON.stringify(user, undefined, 2));
+// });
 
 // createPostForUser('5faf79f9ac546f0008c94798', {
 //   title: 'Greate books to read',
