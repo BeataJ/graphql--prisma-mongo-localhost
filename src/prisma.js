@@ -5,6 +5,14 @@ const prisma = new Prisma({
   endpoint: 'http://localhost:4466/',
 });
 
+prisma.exists
+  .Comment({
+    id: '5fb20f2a24aa9a00084100bc',
+  })
+  .then((exist) => {
+    console.log(exist);
+  });
+
 const createPostForUser = async (authorId, data) => {
   const post = await prisma.mutation.createPost(
     {
