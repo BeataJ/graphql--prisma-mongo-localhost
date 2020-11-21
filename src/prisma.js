@@ -53,15 +53,15 @@ const updatePostForUser = async (postId, data) => {
   return post.author;
 };
 
-updatePostForUser('5fb5e0cea7b11b00070af8b2', {
-  title: 'new title of nothing',
-  body: 'new body of nothing',
-  published: false,
-})
-  .then((user) => {
-    console.log(JSON.stringify(user, undefined, 2));
-  })
-  .catch((error) => console.log(error.message));
+// updatePostForUser('5fb5e0cea7b11b00070af8b2', {
+//   title: 'new title of nothing',
+//   body: 'new body of nothing',
+//   published: false,
+// })
+//   .then((user) => {
+//     console.log(JSON.stringify(user, undefined, 2));
+//   })
+//   .catch((error) => console.log(error.message));
 
 // createPostForUser('5faf79f9ac546f0008c94798', {
 //   title: 'All are right',
