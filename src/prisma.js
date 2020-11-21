@@ -25,19 +25,10 @@ const createPostForUser = async (authorId, data) => {
         },
       },
     },
-    '{ id }'
+    '{ author { id name posts { id title published }}}'
   );
 
-  const user = await prisma.query.user(
-    {
-      where: {
-        id: authorId,
-      },
-    },
-    '{ id name email posts { id title  published} }'
-  );
-
-  return user;
+  return post;
 };
 
 const updatePostForUser = async (postId, data) => {
@@ -68,15 +59,15 @@ const updatePostForUser = async (postId, data) => {
 // });
 
 createPostForUser('5faf79f9ac546f0008c94798', {
-  title: 'Rudy is right',
-  body: 'Rudy is the best person',
+  title: 'All are right',
+  body: 'all are the best persons',
   published: true,
 })
   .then((user) => {
     console.log(JSON.stringify(user, undefined, 2));
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error.message);
   });
 
 //------------------------------------------------------
