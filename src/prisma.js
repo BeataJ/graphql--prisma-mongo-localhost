@@ -5,19 +5,8 @@ const prisma = new Prisma({
   endpoint: 'http://localhost:4466/',
 });
 
-// prisma.exists
-//   .Comment({
-//     id: '5fb20f2a24aa9a00084100bc',
-//     author: {
-//       id: '5fb20bc424aa9a00084100bb',
-//     },
-//   })
-//   .then((exist) => {
-//     console.log(exist);
-//   });
-
 const createPostForUser = async (authorId, data) => {
-  const userExist = prisma.exists({
+  const userExist = await prisma.exists.User({
     id: authorId,
   });
 
@@ -78,13 +67,17 @@ const updatePostForUser = async (postId, data) => {
 //   console.log(JSON.stringify(user, undefined, 2));
 // });
 
-// createPostForUser('5faf79f9ac546f0008c94798', {
-//   title: 'Greate books to read',
-//   body: 'The war of art',
-//   published: true,
-// }).then((user) => {
-//   console.log(JSON.stringify(user, undefined, 2));
-// });
+createPostForUser('5faf79f9ac546f0008c94798', {
+  title: 'Rudy is right',
+  body: 'Rudy is the best person',
+  published: true,
+})
+  .then((user) => {
+    console.log(JSON.stringify(user, undefined, 2));
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 //------------------------------------------------------
 // prisma.mutation
