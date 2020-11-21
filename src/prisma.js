@@ -32,6 +32,14 @@ const createPostForUser = async (authorId, data) => {
 };
 
 const updatePostForUser = async (postId, data) => {
+  const postExist = await prisma.exists.Post({
+    id: postId,
+  });
+
+  if (!postExist) {
+    throw new Error('Post not found');
+  }
+
   const post = await prisma.mutation.updatePost(
     {
       where: {
@@ -39,36 +47,33 @@ const updatePostForUser = async (postId, data) => {
       },
       data,
     },
-    '{ author { id } }'
+    '{ author { id name email posts { id title body published } } }'
   );
-  const user = await prisma.query.user(
-    {
-      where: {
-        id: post.author.id,
-      },
-    },
-    '{ id name email posts { id title published } }'
-  );
-  return user;
+
+  return post.author;
 };
 
-// updatePostForUser('5fb5dc92a7b11b00070af8b1', {
-//   published: false,
-// }).then((user) => {
-//   console.log(JSON.stringify(user, undefined, 2));
-// });
-
-createPostForUser('5faf79f9ac546f0008c94798', {
-  title: 'All are right',
-  body: 'all are the best persons',
-  published: true,
+updatePostForUser('5fb5e0cea7b11b00070af8b2', {
+  title: 'new title of nothing',
+  body: 'new body of nothing',
+  published: false,
 })
   .then((user) => {
     console.log(JSON.stringify(user, undefined, 2));
   })
-  .catch((error) => {
-    console.log(error.message);
-  });
+  .catch((error) => console.log(error.message));
+
+// createPostForUser('5faf79f9ac546f0008c94798', {
+//   title: 'All are right',
+//   body: 'all are the best persons',
+//   published: true,
+// })
+//   .then((user) => {
+//     console.log(JSON.stringify(user, undefined, 2));
+//   })
+//   .catch((error) => {
+//     console.log(error.message);
+//   });
 
 //------------------------------------------------------
 // prisma.mutation
