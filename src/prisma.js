@@ -8,6 +8,7 @@ const prisma = new Prisma({
 prisma.exists
   .Comment({
     id: '5fb20f2a24aa9a00084100bc',
+    text: 'beata',
   })
   .then((exist) => {
     console.log(exist);
