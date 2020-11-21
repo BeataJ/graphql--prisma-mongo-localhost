@@ -5,18 +5,26 @@ const prisma = new Prisma({
   endpoint: 'http://localhost:4466/',
 });
 
-prisma.exists
-  .Comment({
-    id: '5fb20f2a24aa9a00084100bc',
-    author: {
-      id: '5fb20bc424aa9a00084100bb',
-    },
-  })
-  .then((exist) => {
-    console.log(exist);
-  });
+// prisma.exists
+//   .Comment({
+//     id: '5fb20f2a24aa9a00084100bc',
+//     author: {
+//       id: '5fb20bc424aa9a00084100bb',
+//     },
+//   })
+//   .then((exist) => {
+//     console.log(exist);
+//   });
 
 const createPostForUser = async (authorId, data) => {
+  const userExist = prisma.exists({
+    id: authorId,
+  });
+
+  if (!userExist) {
+    throw new Error('User not found');
+  }
+
   const post = await prisma.mutation.createPost(
     {
       data: {
